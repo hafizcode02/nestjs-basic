@@ -83,4 +83,16 @@ export class UserController {
       name,
     });
   }
+
+  // Get Hello with return JSON
+  @Get('hello-friends')
+  async getHelloFriends(
+    @Query('firstName') firstName: string,
+    @Query('lastName') lastName: string,
+    @Res() response: Response,
+  ): Promise<void> {
+    response.status(HttpStatus.OK).json({
+      message: `Hello ${firstName} ${lastName}`,
+    });
+  }
 }
