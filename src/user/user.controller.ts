@@ -8,12 +8,15 @@ import {
   Body,
   Query,
   Req,
+  Inject,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { Response } from 'express';
 import { UserService } from './user.service';
 import { Connection } from 'src/config/connection/connection';
 import { UserMailService } from 'src/mailers/user-mail/user-mail.service';
+import { UserRepository } from 'src/repository/user-repository/user-repository';
+import { MemberService } from './member/member.service';
 
 @Controller('/api/users')
 export class UserController {
@@ -21,11 +24,18 @@ export class UserController {
     private service: UserService,
     private connection: Connection,
     private mailService: UserMailService,
+    private userRepository: UserRepository,
+    @Inject('EmailService') private EmailService: UserMailService, // This is Alias Service (Provider)
+    private memberService: MemberService,
   ) {}
 
   @Get('/')
   index(): string {
+    this.userRepository.save();
     this.mailService.send();
+    this.EmailService.send();
+    console.info(this.memberService._getConnectionName());
+    console.info(this.memberService._sendEmail());
     return `This is Just API Playground + use connection ${this.connection.getName()}`;
   }
 
