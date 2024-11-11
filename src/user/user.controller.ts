@@ -31,7 +31,6 @@ export class UserController {
 
   @Get('/')
   index(): string {
-    this.userRepository.save();
     this.mailService.send();
     this.EmailService.send();
     console.info(this.memberService._getConnectionName());

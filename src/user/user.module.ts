@@ -6,12 +6,10 @@ import {
   mailService,
   UserMailService,
 } from 'src/mailers/user-mail/user-mail.service';
-import {
-  createUserRepository,
-  UserRepository,
-} from 'src/repository/user-repository/user-repository';
+import { UserRepository } from 'src/repository/user-repository/user-repository';
 import { MemberService } from './member/member.service';
 import { ConfigService } from '@nestjs/config';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Module({
   controllers: [UserController],
@@ -33,13 +31,9 @@ import { ConfigService } from '@nestjs/config';
       provide: 'EmailService',
       useExisting: UserMailService,
     },
-    {
-      // This is Factory Provider
-      provide: UserRepository,
-      useFactory: createUserRepository,
-      inject: [Connection],
-    },
+    UserRepository,
     MemberService,
+    PrismaService,
   ],
   exports: [UserService], // Shared Module for App Controller, without it will be error
 })
