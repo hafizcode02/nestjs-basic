@@ -6,7 +6,10 @@ import {
   Res,
   HttpStatus,
   Body,
+  Query,
+  Req,
 } from '@nestjs/common';
+import { Request } from 'express';
 import { Response } from 'express';
 
 @Controller('/api/users')
@@ -58,5 +61,26 @@ export class UserController {
     @Param('message') message: string,
   ): string {
     return `${name} says: ${message}`;
+  }
+
+  // cookie
+  @Get('/set-cookie')
+  setCookie(@Query('name') name: string, @Res() res: Response): void {
+    res.cookie('name', name);
+    res.status(HttpStatus.OK).send('Cookie set');
+  }
+
+  @Get('/get-cookie')
+  getCookie(@Req() req: Request): string {
+    return req.cookies.name;
+  }
+
+  // return views
+  @Get('/view-hello')
+  viewHello(@Query('name') name: string, @Res() res: Response): void {
+    res.render('index.html', {
+      title: 'Say Hello',
+      name,
+    });
   }
 }
