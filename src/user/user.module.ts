@@ -41,5 +41,6 @@ import { ConfigService } from '@nestjs/config';
     },
     MemberService,
   ],
+  exports: [UserService], // Shared Module for App Controller, without it will be error
 })
 export class UserModule {}
