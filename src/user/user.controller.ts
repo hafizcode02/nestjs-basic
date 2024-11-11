@@ -11,9 +11,17 @@ import {
 } from '@nestjs/common';
 import { Request } from 'express';
 import { Response } from 'express';
+import { UserService } from './user.service';
 
 @Controller('/api/users')
 export class UserController {
+  constructor(private service: UserService) {}
+
+  @Get('/')
+  index(): string {
+    return 'This is Just API Playground';
+  }
+
   // Sample Post with HTTP Response & return Json
   @Post('/create')
   create(
@@ -34,16 +42,13 @@ export class UserController {
     res.redirect('/api/users/sample');
   }
 
-  @Post()
-  post(): string {
-    return 'POST /api/users';
-  }
-
+  // Get Sample Route
   @Get('/sample')
   getSample(): string {
     return 'Get Sample Route';
   }
 
+  // Get with Param
   @Get('/test/:id')
   getOne(@Param('id') id: string): string {
     return `GET /api/users/${id}`;
@@ -55,6 +60,7 @@ export class UserController {
     return `Hello ${name || 'World'}!`;
   }
 
+  // Post with Param
   @Post('/say')
   saySomething(
     @Param('name') name: string,
@@ -63,13 +69,14 @@ export class UserController {
     return `${name} says: ${message}`;
   }
 
-  // cookie
+  // set-cookie
   @Get('/set-cookie')
   setCookie(@Query('name') name: string, @Res() res: Response): void {
     res.cookie('name', name);
     res.status(HttpStatus.OK).send('Cookie set');
   }
 
+  // get-cookie
   @Get('/get-cookie')
   getCookie(@Req() req: Request): string {
     return req.cookies.name;
@@ -95,4 +102,17 @@ export class UserController {
       message: `Hello ${firstName} ${lastName}`,
     });
   }
+
+  // Say WelcomeUser
+  @Get('welcome-user')
+  async welcomeUser(
+    @Query('name') name: string,
+    @Res() response: Response,
+  ): Promise<void> {
+    response.status(HttpStatus.OK).json({
+      message: this.service.welcomeUser(name),
+    });
+  }
+
+  // CRUD
 }

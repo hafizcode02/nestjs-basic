@@ -3,6 +3,7 @@ import { UserController } from './user.controller';
 import * as httpMock from 'node-mocks-http';
 import { HttpStatus } from '@nestjs/common';
 import { Response } from 'express';
+import { UserService } from './user.service';
 
 describe('UserController', () => {
   let controller: UserController;
@@ -10,6 +11,7 @@ describe('UserController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UserController],
+      providers: [UserService],
     }).compile();
 
     controller = module.get<UserController>(UserController);
@@ -46,6 +48,19 @@ describe('UserController', () => {
       name: 'Hafiz',
       secret_message: 'Rahasia',
       status: 'created',
+    });
+  });
+
+  it('should return welcome Hafiz!', async () => {
+    const mockResponse = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    } as unknown as Response;
+
+    await controller.welcomeUser('Hafiz', mockResponse);
+    expect(mockResponse.status).toHaveBeenCalledWith(HttpStatus.OK);
+    expect(mockResponse.json).toHaveBeenCalledWith({
+      message: 'Welcome Hafiz!',
     });
   });
 });
