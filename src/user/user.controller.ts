@@ -12,14 +12,18 @@ import {
 import { Request } from 'express';
 import { Response } from 'express';
 import { UserService } from './user.service';
+import { Connection } from 'src/config/connection/connection';
 
 @Controller('/api/users')
 export class UserController {
-  constructor(private service: UserService) {}
+  constructor(
+    private service: UserService,
+    private connection: Connection,
+  ) {}
 
   @Get('/')
   index(): string {
-    return 'This is Just API Playground';
+    return `This is Just API Playground + use connection ${this.connection.getName()}`;
   }
 
   // Sample Post with HTTP Response & return Json
