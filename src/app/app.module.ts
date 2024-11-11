@@ -5,6 +5,7 @@ import { UserModule } from '../user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import * as winston from 'winston';
 import { WinstonModule } from 'nest-winston';
+import { ValidationModule } from 'src/validation/validation.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { WinstonModule } from 'nest-winston';
       envFilePath: '.env',
     }),
     UserModule,
+    ValidationModule.forRoot(true),
   ],
   controllers: [AppController],
   providers: [AppService],
