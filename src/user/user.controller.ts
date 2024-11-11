@@ -9,6 +9,9 @@ import {
   Query,
   Req,
   Inject,
+  Put,
+  ParseIntPipe,
+  Delete,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { Response } from 'express';
@@ -131,4 +134,53 @@ export class UserController {
   }
 
   // CRUD
+  @Get('/crud')
+  async getAll(@Res() response: Response): Promise<any> {
+    await this.userRepository._getAll().then((data) => {
+      response.status(HttpStatus.OK).json(data);
+    });
+  }
+
+  @Post('/crud')
+  async postUser(
+    @Res() response: Response,
+    @Body('firstName') firstName: string,
+    @Body('lastName') lastName: string,
+  ): Promise<any> {
+    await this.userRepository._save(firstName, lastName).then((data) => {
+      response.status(HttpStatus.CREATED).json(data);
+    });
+  }
+
+  @Get('/crud/:id')
+  async getById(
+    @Res() response: Response,
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<any> {
+    await this.userRepository._getById(id).then((data) => {
+      response.status(HttpStatus.OK).json(data);
+    });
+  }
+
+  @Put('/crud/:id')
+  async updateUser(
+    @Res() response: Response,
+    @Param('id', ParseIntPipe) id: number,
+    @Body('firstName') firstName: string,
+    @Body('lastName') lastName: string,
+  ): Promise<any> {
+    await this.userRepository._update(id, firstName, lastName).then((data) => {
+      response.status(HttpStatus.OK).json(data);
+    });
+  }
+
+  @Delete('/crud/:id')
+  async deleteUser(
+    @Res() response: Response,
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<any> {
+    await this.userRepository._delete(id).then((data) => {
+      response.status(HttpStatus.OK).json(data);
+    });
+  }
 }

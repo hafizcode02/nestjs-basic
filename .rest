@@ -1,0 +1,26 @@
+# Get CRUD user Request
+# GET http://localhost:3000/api/users/crud
+
+# # Post CRUD user Request
+# POST http://localhost:3000/api/users/crud
+# Content-Type: application/json
+
+# {
+#     "firstName": "Hafiz",
+#     "lastName": "Caniago"
+# }
+
+# # Get CRUD user Request
+# GET http://localhost:3000/api/users/crud/1
+
+
+# # Put CRUD user Request
+# PUT http://localhost:3000/api/users/crud/1
+# Content-Type: application/json
+
+# {
+#     "firstName": "Hafigo"
+# }
+
+# # Delete CRUD user Request
+# DELETE http://localhost:3000/api/users/crud/1

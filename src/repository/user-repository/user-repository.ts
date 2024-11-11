@@ -8,7 +8,7 @@ export class UserRepository {
   }
 
   async _save(firstName: string, lastName?: string) {
-    await this.prismaService.user.create({
+    return await this.prismaService.user.create({
       data: {
         first_name: firstName,
         last_name: lastName,
@@ -22,7 +22,7 @@ export class UserRepository {
 
   async _getById(id: number) {
     return await this.prismaService.user.findUnique({
-      where: { id },
+      where: { id: id },
     });
   }
 
