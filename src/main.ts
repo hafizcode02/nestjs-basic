@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { AppModule } from './app/app.module';
 import * as cookieParser from 'cookie-parser';
 import * as mustache from 'mustache-express';
 import { NestExpressApplication } from '@nestjs/platform-express';
