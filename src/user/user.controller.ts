@@ -13,16 +13,19 @@ import { Request } from 'express';
 import { Response } from 'express';
 import { UserService } from './user.service';
 import { Connection } from 'src/config/connection/connection';
+import { UserMailService } from 'src/mailers/user-mail/user-mail.service';
 
 @Controller('/api/users')
 export class UserController {
   constructor(
     private service: UserService,
     private connection: Connection,
+    private mailService: UserMailService,
   ) {}
 
   @Get('/')
   index(): string {
+    this.mailService.send();
     return `This is Just API Playground + use connection ${this.connection.getName()}`;
   }
 

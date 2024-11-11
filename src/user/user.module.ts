@@ -6,6 +6,10 @@ import {
   MySQLConnection,
   PostgreSQLConnection,
 } from 'src/config/connection/connection';
+import {
+  mailService,
+  UserMailService,
+} from 'src/mailers/user-mail/user-mail.service';
 
 @Module({
   controllers: [UserController],
@@ -17,6 +21,10 @@ import {
         process.env.DATABASE == 'mysql'
           ? MySQLConnection
           : PostgreSQLConnection,
+    },
+    {
+      provide: UserMailService,
+      useValue: mailService,
     },
   ],
 })
