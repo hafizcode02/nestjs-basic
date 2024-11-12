@@ -14,6 +14,7 @@ import {
   Delete,
   UseFilters,
   UseInterceptors,
+  UseGuards,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { Response } from 'express';
@@ -31,6 +32,7 @@ import {
 import { TimeInterceptor } from 'src/time/time.interceptor';
 import { Auth } from 'src/auth/auth.decorator';
 import { User } from '@prisma/client';
+import { RoleGuard } from 'src/role/role.guard';
 
 @Controller('/api/users')
 export class UserController {
@@ -216,6 +218,7 @@ export class UserController {
 
   // Sample Custom Decorator
   @Get('/current')
+  @UseGuards(new RoleGuard(['Admin', 'operator']))
   current(@Auth() user: User): Record<string, any> {
     return {
       data: `Hello ${user.first_name}`,
