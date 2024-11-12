@@ -48,6 +48,12 @@ export class UserController {
     @Body('name') name: string,
     @Body('secret_message') secret_message: string,
   ): void {
+    if (!name || !secret_message) {
+      res.status(HttpStatus.BAD_REQUEST).send({
+        error: 'name and secret_message are required',
+      });
+      return;
+    }
     res.status(HttpStatus.CREATED).send({
       name,
       secret_message,
@@ -124,6 +130,7 @@ export class UserController {
 
   // Say WelcomeUser
   @Get('welcome-user')
+  // @UseFilters(ValidationFilter)
   async welcomeUser(
     @Query('name') name: string,
     @Res() response: Response,
