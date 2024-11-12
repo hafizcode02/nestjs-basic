@@ -12,6 +12,7 @@ import {
   Put,
   ParseIntPipe,
   Delete,
+  UseFilters,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { Response } from 'express';
@@ -20,6 +21,12 @@ import { Connection } from 'src/config/connection/connection';
 import { UserMailService } from 'src/mailers/user-mail/user-mail.service';
 import { UserRepository } from 'src/repository/user-repository/user-repository';
 import { MemberService } from './member/member.service';
+import { ValidationFilter } from 'src/validation/validation.filter';
+import { ValidationPipe } from 'src/validation/validation.pipe';
+import {
+  LoginUserRequest,
+  LoginUserRequestValidation,
+} from 'src/model/login.model';
 
 @Controller('/api/users')
 export class UserController {
@@ -189,5 +196,16 @@ export class UserController {
     await this.userRepository._delete(id).then((data) => {
       response.status(HttpStatus.OK).json(data);
     });
+  }
+
+  // Sample Custom Pipeline
+  @UseFilters(ValidationFilter)
+  @Post('/login-custom-pipeline')
+  loginCustomPipeline(
+    @Body(new ValidationPipe(LoginUserRequestValidation))
+    req: LoginUserRequest,
+    @Res() res: Response,
+  ): void {
+    res.status(HttpStatus.OK).json(req);
   }
 }
