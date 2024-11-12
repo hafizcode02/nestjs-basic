@@ -13,6 +13,7 @@ import {
   ParseIntPipe,
   Delete,
   UseFilters,
+  UseInterceptors,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { Response } from 'express';
@@ -27,6 +28,7 @@ import {
   LoginUserRequest,
   LoginUserRequestValidation,
 } from 'src/model/login.model';
+import { TimeInterceptor } from 'src/time/time.interceptor';
 
 @Controller('/api/users')
 export class UserController {
@@ -201,6 +203,7 @@ export class UserController {
   // Sample Custom Pipeline
   @UseFilters(ValidationFilter)
   @Post('/login-custom-pipeline')
+  @UseInterceptors(TimeInterceptor)
   loginCustomPipeline(
     @Body(new ValidationPipe(LoginUserRequestValidation))
     req: LoginUserRequest,
