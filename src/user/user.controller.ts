@@ -33,6 +33,7 @@ import { TimeInterceptor } from 'src/time/time.interceptor';
 import { Auth } from 'src/auth/auth.decorator';
 import { User } from '@prisma/client';
 import { RoleGuard } from 'src/role/role.guard';
+import { Role } from 'src/role/role.decorator';
 
 @Controller('/api/users')
 export class UserController {
@@ -218,7 +219,8 @@ export class UserController {
 
   // Sample Custom Decorator
   @Get('/current')
-  @UseGuards(new RoleGuard(['Admin', 'operator']))
+  @UseGuards(RoleGuard)
+  @Role(['Admin', 'Operator'])
   current(@Auth() user: User): Record<string, any> {
     return {
       data: `Hello ${user.first_name}`,
