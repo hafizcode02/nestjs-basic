@@ -34,4 +34,4 @@
 # }
 
 GET http://localhost:3000/api/users/current
-x-username: "Hafiz"
+x-username: Hafiz
