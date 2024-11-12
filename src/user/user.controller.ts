@@ -219,7 +219,7 @@ export class UserController {
 
   // Sample Custom Decorator
   @Get('/current')
-  @UseGuards(RoleGuard)
+  // @UseGuards(RoleGuard)
   @Role(['Admin', 'Operator'])
   current(@Auth() user: User): Record<string, any> {
     return {

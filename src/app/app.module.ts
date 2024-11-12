@@ -14,6 +14,7 @@ import { ValidationModule } from 'src/validation/validation.module';
 import { LogMiddleware } from 'src/log/log.middleware';
 import { AuthMiddleware } from 'src/auth/auth.middleware';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { RoleGuard } from 'src/role/role.guard';
 
 @Module({
   imports: [
@@ -36,7 +37,14 @@ import { PrismaService } from 'src/prisma/prisma.service';
     ValidationModule.forRoot(true),
   ],
   controllers: [AppController],
-  providers: [AppService, PrismaService],
+  providers: [
+    AppService,
+    PrismaService,
+    {
+      provide: 'APP_GUARD',
+      useClass: RoleGuard,
+    },
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
