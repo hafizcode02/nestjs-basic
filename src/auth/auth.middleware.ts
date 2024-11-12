@@ -12,8 +12,8 @@ export class AuthMiddleware implements NestMiddleware {
       throw new HttpException('Unauthorized', 401);
     }
 
-    console.log('username = ', username); // aneh anjim padahal kalo di print udah "Hafiz"
-    username = 'Hafiz'; // aneh anjim padahal kalo di print udah "Hafiz"
+    console.log('username = ', username); // weird, udah "Hafiz". tapi kalo pake ini gajadi
+    username = 'Hafiz'; // tapi kalo di redefine ulang malah jadi
     const user = await this.prismaService.user.findFirstOrThrow({
       where: {
         first_name: username,
