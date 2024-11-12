@@ -29,6 +29,8 @@ import {
   LoginUserRequestValidation,
 } from 'src/model/login.model';
 import { TimeInterceptor } from 'src/time/time.interceptor';
+import { Auth } from 'src/auth/auth.decorator';
+import { User } from '@prisma/client';
 
 @Controller('/api/users')
 export class UserController {
@@ -210,5 +212,13 @@ export class UserController {
     @Res() res: Response,
   ): void {
     res.status(HttpStatus.OK).json(req);
+  }
+
+  // Sample Custom Decorator
+  @Get('/current')
+  current(@Auth() user: User): Record<string, any> {
+    return {
+      data: `Hello ${user.first_name}`,
+    };
   }
 }
